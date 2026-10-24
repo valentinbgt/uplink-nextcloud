@@ -128,6 +128,22 @@ class FileNamer {
 	}
 
 	/**
+	 * Adds the extension of the detected name to a name chosen without extension.
+	 *
+	 * @param string $name The name chosen by the user, already validated
+	 * @param string $detectedName The name detected from the response
+	 */
+	public function withExtensionOf(string $name, string $detectedName): string {
+		$extension = self::getExtension($detectedName);
+		if ($extension === '' || self::getExtension($name) !== '') {
+			return $name;
+		}
+
+		$completed = $name . '.' . $extension;
+		return $this->filenameValidator->isFilenameValid($completed) ? $completed : $name;
+	}
+
+	/**
 	 * Turns an untrusted name into a plain file name, or an empty string if nothing usable is left.
 	 */
 	public function sanitize(string $name): string {

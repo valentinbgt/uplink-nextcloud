@@ -143,6 +143,14 @@ class FileNamerTest extends TestCase {
 		$this->assertSame('download.pdf', $this->namer->fromResponse('attachment; filename="..."', 'application/pdf', []));
 	}
 
+	public function testAChosenNameGetsTheDetectedExtension(): void {
+		$this->assertSame('rapport.pdf', $this->namer->withExtensionOf('rapport', 'download.pdf'));
+		$this->assertSame('mon rapport 2026.pdf', $this->namer->withExtensionOf('mon rapport 2026', 'report.pdf'));
+		$this->assertSame('rapport.odt', $this->namer->withExtensionOf('rapport.odt', 'report.pdf'));
+		$this->assertSame('rapport', $this->namer->withExtensionOf('rapport', 'download'));
+		$this->assertSame(str_repeat('a', 248), $this->namer->withExtensionOf(str_repeat('a', 248), 'x.pdf'));
+	}
+
 	public function testSanitize(): void {
 		$this->assertSame('passwd', $this->namer->sanitize('../../etc/passwd'));
 		$this->assertSame('doc.txt', $this->namer->sanitize('C:\\Users\\me\\doc.txt'));

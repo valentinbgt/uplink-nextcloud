@@ -234,6 +234,7 @@ class DownloadServiceTest extends TestCase {
 		$this->assertSame('résumé.pdf', $this->download('https://example.com/download?id=1'));
 		$this->assertSame('copy of résumé.pdf', $this->download('https://example.com/download?id=1'));
 		$this->assertSame('chosen.txt', $this->download('https://example.com/download?id=1', 'chosen.txt'));
+		$this->assertSame('chosen.pdf', $this->download('https://example.com/download?id=1', 'chosen'));
 	}
 
 	public function testRemoteErrorsAreReported(): void {

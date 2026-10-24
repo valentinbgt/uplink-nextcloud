@@ -16,6 +16,7 @@ Uplink ajoute une entrée **Ajouter depuis un lien** au menu **+ Nouveau** de l'
 - **Progression en direct**, avec la taille téléchargée et la taille totale quand le serveur distant la fournit.
 - **Le téléchargement continue sur le serveur** si vous fermez la fenêtre ou l'onglet ; le fichier apparaît dans la liste dès qu'il est prêt.
 - **Nom de fichier détecté comme dans un navigateur** : en-tête `Content-Disposition` (y compris les noms accentués), puis l'adresse finale après les redirections, puis le type du fichier pour ajouter l'extension manquante (`photo` → `photo.png`, `download.php` → `download.pdf`, une page de connexion reçue à la place de `fichier.zip` → `fichier.zip.html`).
+- **Extension ajoutée automatiquement** au nom choisi s'il n'en a pas : `rapport` devient `rapport.pdf`.
 - **Aucun fichier écrasé** : `rapport.pdf` devient `rapport (2).pdf` si le nom est déjà pris.
 - **Aucun fichier partiel** : le fichier est d'abord téléchargé dans un fichier temporaire, puis enregistré en une fois dans le dossier. Une erreur ne laisse rien derrière elle.
 - **Quota respecté** : le téléchargement est arrêté dès qu'il dépasse l'espace libre.

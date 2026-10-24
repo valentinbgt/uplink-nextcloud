@@ -317,11 +317,11 @@ class DownloadService {
 			throw $this->getNoSpaceError();
 		}
 
-		$name = $download->name;
-		if ($name === '') {
-			$urls = array_values(array_unique([$response['url'], $download->url]));
-			$name = $this->fileNamer->fromResponse($response['contentDisposition'], $response['contentType'], $urls);
-		}
+		$urls = array_values(array_unique([$response['url'], $download->url]));
+		$detectedName = $this->fileNamer->fromResponse($response['contentDisposition'], $response['contentType'], $urls);
+		$name = $download->name === ''
+			? $detectedName
+			: $this->fileNamer->withExtensionOf($download->name, $detectedName);
 		$name = $folder->getNonExistingName($name);
 
 		$source = fopen($tempFile, 'rb');

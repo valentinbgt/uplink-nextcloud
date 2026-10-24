@@ -1,0 +1,57 @@
+# SPDX-FileCopyrightText: 2026 Valentin and Uplink contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  php:
+    name: PHP ${{ matrix.php }} with nextcloud/ocp ${{ matrix.ocp }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '8.2'
+            ocp: dev-stable33
+          - php: '8.4'
+            ocp: dev-stable35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - name: Install dependencies
+        run: composer require --dev --no-interaction --no-progress "nextcloud/ocp:${{ matrix.ocp }}"
+      - name: Lint
+        run: composer run lint
+      - name: Unit tests
+        run: vendor/bin/phpunit
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Check that the built files are up to date
+        run: git diff --exit-code -- js l10n
+
+  appinfo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate appinfo/info.xml
+        run: |
+          curl -sSfL https://apps.nextcloud.com/schema/apps/info.xsd -o /tmp/info.xsd
+          xmllint --noout --schema /tmp/info.xsd appinfo/info.xml

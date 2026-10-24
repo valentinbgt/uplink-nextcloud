@@ -1,0 +1,27 @@
+{
+	"name": "valentinbgt/uplink",
+	"description": "Add a file to Nextcloud from an Internet link",
+	"type": "project",
+	"license": "AGPL-3.0-or-later",
+	"require": {
+		"php": ">=8.2"
+	},
+	"require-dev": {
+		"nextcloud/ocp": "dev-stable33",
+		"phpunit/phpunit": "^11.5",
+		"psr/http-message": "^2.0"
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"OCA\\Uplink\\": "lib/",
+			"OCA\\Uplink\\Tests\\": "tests/"
+		}
+	},
+	"scripts": {
+		"lint": "find lib tests -name '*.php' -print0 | xargs -0 -n1 php -l",
+		"test": "phpunit"
+	},
+	"config": {
+		"sort-packages": true
+	}
+}

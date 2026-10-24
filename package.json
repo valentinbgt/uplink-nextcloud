@@ -1,0 +1,31 @@
+{
+  "name": "uplink",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Add a file to Nextcloud from an Internet link",
+  "license": "AGPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/valentinbgt/uplink-nextcloud.git"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --dev",
+    "watch": "node build.mjs --dev --watch"
+  },
+  "dependencies": {
+    "@nextcloud/auth": "^2.6.0",
+    "@nextcloud/event-bus": "^3.3.3",
+    "@nextcloud/files": "^4.1.1",
+    "@nextcloud/l10n": "^3.4.1",
+    "@nextcloud/router": "^3.2.0"
+  },
+  "devDependencies": {
+    "@mdi/svg": "^7.4.47",
+    "esbuild": "^0.28.2"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

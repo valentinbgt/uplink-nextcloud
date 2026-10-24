@@ -1,0 +1,254 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Valentin and Uplink contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+.uplink-dialog {
+	--uplink-gap: calc(var(--default-grid-baseline, 4px) * 3);
+	--uplink-clickable: var(--default-clickable-area, 34px);
+	--uplink-radius: var(--border-radius-element, 8px);
+	box-sizing: border-box;
+	width: min(480px, calc(100vw - 24px));
+	max-height: calc(100vh - 24px);
+	margin: auto;
+	padding: 0;
+	overflow: auto;
+	border: none;
+	border-radius: var(--border-radius-container-large, var(--border-radius-large, 16px));
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+	font-size: var(--default-font-size, 15px);
+	line-height: var(--default-line-height, 1.5);
+}
+
+.uplink-dialog::backdrop {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.uplink-dialog [hidden] {
+	display: none !important;
+}
+
+.uplink-dialog__form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--uplink-gap);
+	padding: var(--uplink-gap) var(--uplink-gap) var(--uplink-gap) calc(var(--uplink-gap) * 2);
+}
+
+.uplink-dialog__header {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--uplink-gap);
+}
+
+.uplink-dialog__title {
+	flex: 1 1 auto;
+	margin: 0;
+	font-size: 21px;
+	font-weight: var(--font-weight-heading, bold);
+	line-height: var(--uplink-clickable);
+	overflow-wrap: anywhere;
+}
+
+/* Element selectors outweigh the global button and input styles of Nextcloud. */
+.uplink-dialog button.uplink-dialog__close,
+.uplink-dialog button.uplink-dialog__close:focus {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	width: var(--uplink-clickable);
+	height: var(--uplink-clickable);
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	border: none;
+	border-radius: var(--border-radius-pill, 50%);
+	background-color: transparent;
+	color: var(--color-main-text);
+	cursor: pointer;
+}
+
+.uplink-dialog button.uplink-dialog__close svg {
+	width: 20px;
+	height: 20px;
+	fill: currentColor;
+}
+
+.uplink-dialog__fields,
+.uplink-dialog__progress {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline, 4px) * 2);
+	padding-inline-end: var(--uplink-gap);
+}
+
+.uplink-dialog__label {
+	display: block;
+	margin-top: calc(var(--default-grid-baseline, 4px) * 2);
+	font-weight: bold;
+}
+
+.uplink-dialog__label:first-child {
+	margin-top: 0;
+}
+
+.uplink-dialog__optional {
+	color: var(--color-text-maxcontrast);
+	font-weight: normal;
+}
+
+.uplink-dialog input.uplink-dialog__input {
+	box-sizing: border-box;
+	width: 100%;
+	height: var(--uplink-clickable);
+	min-height: var(--uplink-clickable);
+	margin: 0;
+	padding: 0 12px;
+	border: 2px solid var(--color-border-maxcontrast);
+	border-radius: var(--uplink-radius);
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	font-size: var(--default-font-size, 15px);
+	cursor: text;
+}
+
+.uplink-dialog input.uplink-dialog__input:hover,
+.uplink-dialog input.uplink-dialog__input:focus {
+	border-color: var(--color-main-text);
+	outline: none;
+	box-shadow: 0 0 0 2px var(--color-main-background);
+}
+
+.uplink-dialog input.uplink-dialog__input::placeholder {
+	color: var(--color-text-maxcontrast);
+}
+
+.uplink-dialog__hint,
+.uplink-dialog__status {
+	margin: 0;
+}
+
+.uplink-dialog__hint {
+	color: var(--color-text-maxcontrast);
+}
+
+.uplink-dialog__bar {
+	position: relative;
+	height: 8px;
+	overflow: hidden;
+	border-radius: var(--border-radius-pill, 4px);
+	background-color: var(--color-background-dark);
+}
+
+.uplink-dialog__bar-fill {
+	width: 0;
+	height: 100%;
+	border-radius: inherit;
+	background-color: var(--color-primary-element);
+	transition: width 250ms ease-out;
+}
+
+.uplink-dialog__bar--indeterminate .uplink-dialog__bar-fill {
+	position: absolute;
+	width: 30%;
+	animation: uplink-indeterminate 1.4s ease-in-out infinite;
+	transition: none;
+}
+
+@keyframes uplink-indeterminate {
+	from {
+		inset-inline-start: -30%;
+	}
+
+	to {
+		inset-inline-start: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.uplink-dialog__bar--indeterminate .uplink-dialog__bar-fill {
+		inset-inline-start: 0;
+		width: 100%;
+		opacity: 0.5;
+		animation: none;
+	}
+}
+
+.uplink-dialog__error {
+	margin: 0 var(--uplink-gap) 0 0;
+	padding: calc(var(--default-grid-baseline, 4px) * 2) var(--uplink-gap);
+	border-inline-start: 4px solid var(--color-border-error, var(--color-element-error, #c90000));
+	border-radius: var(--uplink-radius);
+	background-color: var(--color-error, #ffe7e7);
+	color: var(--color-error-text, var(--color-main-text));
+	overflow-wrap: anywhere;
+}
+
+.uplink-dialog__actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 6px;
+}
+
+.uplink-dialog button.uplink-dialog__button {
+	width: auto;
+	min-height: var(--uplink-clickable);
+	margin: 0;
+	padding: 0 calc(var(--default-grid-baseline, 4px) * 4);
+	border: none;
+	border-radius: var(--border-radius-element, calc(var(--uplink-clickable) / 2));
+	font-size: var(--default-font-size, 15px);
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.uplink-dialog button.uplink-dialog__button--primary,
+.uplink-dialog button.uplink-dialog__button--primary:focus {
+	background-color: var(--color-primary-element);
+	color: var(--color-primary-element-text);
+}
+
+.uplink-dialog button.uplink-dialog__button--tertiary,
+.uplink-dialog button.uplink-dialog__button--tertiary:focus {
+	background-color: transparent;
+	color: var(--color-main-text);
+}
+
+.uplink-dialog button.uplink-dialog__button--primary:hover {
+	background-color: var(--color-primary-element-hover);
+}
+
+.uplink-dialog button.uplink-dialog__button--tertiary:hover,
+.uplink-dialog button.uplink-dialog__close:hover {
+	background-color: var(--color-background-hover);
+}
+
+.uplink-dialog button.uplink-dialog__button:focus-visible,
+.uplink-dialog button.uplink-dialog__close:focus-visible {
+	outline: 2px solid var(--color-main-text);
+	box-shadow: 0 0 0 4px var(--color-main-background);
+}
+
+.uplink-notice {
+	position: fixed;
+	z-index: 100000;
+	top: calc(var(--header-height, 50px) + 8px);
+	inset-inline-end: 8px;
+	box-sizing: border-box;
+	max-width: min(400px, calc(100vw - 16px));
+	padding: 12px 16px;
+	border-inline-start: 4px solid var(--color-border-success, var(--color-element-success, #099f05));
+	border-radius: var(--border-radius-element, 8px);
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	box-shadow: 0 0 6px 0 var(--color-box-shadow, rgba(0, 0, 0, 0.2));
+	cursor: pointer;
+}
+
+.uplink-notice--error {
+	border-inline-start-color: var(--color-border-error, var(--color-element-error, #c90000));
+}

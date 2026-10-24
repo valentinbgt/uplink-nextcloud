@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2026 Valentin and Uplink contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>uplink</id>
+	<name>Uplink</name>
+	<summary>Add a file to your cloud straight from an Internet link</summary>
+	<summary lang="fr">Ajoutez un fichier à votre cloud directement depuis un lien Internet</summary>
+	<description><![CDATA[Uplink adds an **Add from link** entry to the **+ New** menu of the Files app.
+Paste a link and the server downloads the file directly into the current folder,
+without going through your computer.
+
+- Progress is shown while the file is downloaded, and the download keeps going on the server if you close the window.
+- The file name is detected from the server response (Content-Disposition), the link or the file type, and can be chosen manually.
+- Existing files are never overwritten: a number is added to the name when needed.
+- Your quota is respected and no partial file is ever left behind.
+- Links to local or private network addresses are blocked, unless the administrator allows them (`allow_local_remote_servers`).]]></description>
+	<description lang="fr"><![CDATA[Uplink ajoute une entrée **Ajouter depuis un lien** au menu **+ Nouveau** de l'application Fichiers.
+Collez un lien : le serveur télécharge le fichier directement dans le dossier courant,
+sans passer par votre ordinateur.
+
+- La progression s'affiche pendant le téléchargement, qui continue sur le serveur même si vous fermez la fenêtre.
+- Le nom du fichier est déduit de la réponse du serveur (Content-Disposition), du lien ou du type de fichier, et peut être choisi manuellement.
+- Un fichier existant n'est jamais écrasé : un numéro est ajouté au nom si besoin.
+- Le quota est respecté et aucun fichier partiel n'est jamais laissé.
+- Les liens vers des adresses locales ou de réseau privé sont bloqués, sauf si l'administrateur les autorise (`allow_local_remote_servers`).]]></description>
+	<version>1.0.0</version>
+	<licence>agpl</licence>
+	<author homepage="https://github.com/valentinbgt">valentinbgt</author>
+	<namespace>Uplink</namespace>
+	<category>files</category>
+	<category>tools</category>
+	<website>https://github.com/valentinbgt/uplink-nextcloud</website>
+	<bugs>https://github.com/valentinbgt/uplink-nextcloud/issues</bugs>
+	<repository type="git">https://github.com/valentinbgt/uplink-nextcloud.git</repository>
+	<dependencies>
+		<php min-version="8.2"/>
+		<lib>curl</lib>
+		<nextcloud min-version="33" max-version="36"/>
+	</dependencies>
+</info>

@@ -18,15 +18,20 @@ if (is_file($appRoot . '/vendor/autoload.php')) {
 }
 
 if (!interface_exists(\OCP\Files\IFilenameValidator::class)) {
-	$server = getenv('NEXTCLOUD_SERVER') ?: dirname($appRoot, 2);
-	if (!is_file($server . '/lib/public/Files/IFilenameValidator.php')) {
-		fwrite(STDERR, "Run `composer install` or set NEXTCLOUD_SERVER to a Nextcloud server checkout.\n");
-		exit(1);
+	// The nextcloud/ocp package does not declare an autoloader.
+	$ocpDirectory = $appRoot . '/vendor/nextcloud/ocp/OCP';
+	if (!is_dir($ocpDirectory)) {
+		$server = getenv('NEXTCLOUD_SERVER') ?: dirname($appRoot, 2);
+		if (!is_file($server . '/lib/public/Files/IFilenameValidator.php')) {
+			fwrite(STDERR, "Run `composer install` or set NEXTCLOUD_SERVER to a Nextcloud server checkout.\n");
+			exit(1);
+		}
+		require_once $server . '/3rdparty/autoload.php';
+		$ocpDirectory = $server . '/lib/public';
 	}
-	require_once $server . '/3rdparty/autoload.php';
-	spl_autoload_register(static function (string $class) use ($server): void {
+	spl_autoload_register(static function (string $class) use ($ocpDirectory): void {
 		if (str_starts_with($class, 'OCP\\')) {
-			$file = $server . '/lib/public/' . str_replace('\\', '/', substr($class, 4)) . '.php';
+			$file = $ocpDirectory . '/' . str_replace('\\', '/', substr($class, 4)) . '.php';
 			if (is_file($file)) {
 				require_once $file;
 			}

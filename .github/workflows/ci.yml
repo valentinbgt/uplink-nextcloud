@@ -51,7 +51,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate appinfo/info.xml
+      - name: Install xmllint
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+      - name: Validate appinfo/info.xml against the App Store schema
         run: |
-          curl -sSfL https://apps.nextcloud.com/schema/apps/info.xsd -o /tmp/info.xsd
+          curl -sSfL https://raw.githubusercontent.com/nextcloud/appstore/master/nextcloudappstore/api/v1/release/info.xsd -o /tmp/info.xsd
           xmllint --noout --schema /tmp/info.xsd appinfo/info.xml
